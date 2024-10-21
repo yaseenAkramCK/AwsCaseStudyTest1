@@ -11,6 +11,16 @@ jobs:
       - uses: actions/checkout@v2
       - name: Set up Node.js
         uses: actions/setup-node@v2
+        with: 
+          node-verion: '12'
+
+      - name: configure the AWS  Credentails 
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: "us-east-1"
+
       - name: Install dependencies and bundle code
         env:
           CI: true
@@ -21,10 +31,8 @@ jobs:
       - name: Deploy to AWS Lambda
         run: |
           aws lambda update-function-code --function-name yt-lamdafunction --zip-file fileb://publish.zip --region us-east-1
-        env:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: "us-east-1"
+       
+          
 
 
 
