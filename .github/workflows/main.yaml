@@ -20,7 +20,7 @@ jobs:
 
       - name: Deploy to AWS Lambda
         run: |
-          aws lambda update-function-code --function-name yt-lamdafunction --zip-file fileb://publish.zip --region your-region-replace
+          aws lambda update-function-code --function-name yt-lamdafunction --zip-file fileb://publish.zip --region us-east-1
         env:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
