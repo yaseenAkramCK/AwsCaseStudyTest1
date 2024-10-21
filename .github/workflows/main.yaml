@@ -9,26 +9,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: AWS Configure 
+        uses: actions/configure-aws-credentials@v1
         with: 
-          node-verion: '12'
-          
-      - name: Install dependencies and bundle code
-        env:
-          CI: true
-        run: |
-         npm ci
-         zip -r publish.zip ./*
-
-      - name: Deploy to AWS Lambda
-        run: |
-          aws lambda update-function-code --function-name yt-lamdafunction --zip-file fileb://publish.zip --region us-east-1
-        env:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: "us-east-1"
-
+          aws_region: us-east-1
+      - name: AWS S3 Command 
+        run: |
+          aws s3 ls
 
 
 
