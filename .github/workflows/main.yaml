@@ -1,0 +1,44 @@
+name: deploy to lambda
+on:
+  push :
+    branches: [ main ]
+jobs:
+  deploy:
+    name: deploy lambda function
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+      - name: Install dependencies and bundle code
+        env:
+          CI: true
+        run: |
+         npm ci
+         zip -r publish.zip ./*
+
+      - name: Deploy to AWS Lambda
+        run: |
+          aws lambda update-function-code --function-name yt-lamdafunction --zip-file fileb://publish.zip --region your-region-replace
+        env:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: "us-east-1"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
